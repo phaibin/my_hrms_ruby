@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  subject: overtime1
+  start_time: 2012-10-06
+  end_time: 2012-10-06
+  state_id: 1
+  applicant_id: 1
+  content: MyText
+  modified_by: 1
+
+two:
+  subject: overtime2
+  start_time: 2012-10-06
+  end_time: 2012-10-06
+  state_id: 1
+  applicant_id: 1
+  content: MyText
+  modified_by: 1

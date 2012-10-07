@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: 员工
+
+two:
+  name: 人事
+
+three:
+  name: 项目经理
+  
+four:
+  name: 部门主管
