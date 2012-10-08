@@ -3,11 +3,12 @@
 
 class OvertimesController < ApplicationController
   
-  # before_filter :authenticate_user!
+  before_filter :authenticate_user!
   
   # GET /overtimes
   # GET /overtimes.json
   def index
+    puts request
     @title = '加班'
     @overtimes = Overtime.all
 

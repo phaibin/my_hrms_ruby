@@ -5,9 +5,17 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
+  id: 1
   email: phaibin@gmail.com
   encrypted_password: $2a$10$OCRadW7poBFgZlZ7AkDdS.b0PFZyIWO0YXwY16.JpEcHmr8fG755a
+  chinese_name: PM
+  english_name: PM
+  superior_id: null
 
 two:
+  id: 2
   email: phaibin.ctit@gmail.com
   encrypted_password: $2a$10$OCRadW7poBFgZlZ7AkDdS.b0PFZyIWO0YXwY16.JpEcHmr8fG755a
+  chinese_name: employee1
+  english_name: employee1
+  superior_id: 1

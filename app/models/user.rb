@@ -11,4 +11,5 @@ class User < ActiveRecord::Base
     has_many :overtimes, :foreign_key => 'applicant_id'  
     has_many :user_groups
     has_many :groups, :through => :user_groups
+    belongs_to :superior, :class_name => 'User'
 end

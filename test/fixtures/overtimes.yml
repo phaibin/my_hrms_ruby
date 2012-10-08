@@ -1,6 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
+  id: 1
   subject: overtime1
   start_time: 2012-10-06
   end_time: 2012-10-06
@@ -10,6 +11,7 @@ one:
   modified_by: 1
 
 two:
+  id: 2
   subject: overtime2
   start_time: 2012-10-06
   end_time: 2012-10-06
