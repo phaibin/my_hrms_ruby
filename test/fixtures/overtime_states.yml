@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  code: ReadyForManagerApprove
+  name: 等待项目经理批准
+
+two:
+  id: 2
+  code: ReadyForDirectorApprove
+  name: 等待部门主管批准
+
+three:
+  id: 3
+  code: Reject
+  name: 被拒绝
+  
+four:
+  id: 4
+  code: Approved
+  name: 通过
+
+   
+five:
+  id: 5
+  code: Revoke
+  name: 撤销

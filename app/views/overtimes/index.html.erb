@@ -6,7 +6,7 @@
 <div class="page-header"><h1>加班列表</h1></div>
   
 <p>
-  {% if "overtime.add_application" in request.user.get_group_permissions %}<a class="btn" href="{% url new_overtime %}">新增加班申请</a>{% endif %}
+  {% if "overtime.add_application" in request.user.get_group_permissions %}<%= link_to '新增加班申请', new_overtime_path, :class=>'btn' %>{% endif %}
   <a class="btn" href="{% url overview_overtime %}">加班统计</a>
 </p>
       
@@ -24,15 +24,15 @@
   
   
 
-{% if is_hr %}
-  {% for app in applications %}
+<% if @is_hr %>
+  <% @overtimes.each do |overtime| %>
   <li>
-      <h3><a href="{% url show_overtime app.id %}">{{ app.subject }}</a></h3>
-      {{ app.state }}
-      <div class="foot">最后由 • <span class="field">{{ app.modified_by.userprofile.chinese_name }}</span> • 于 • <span class="field">{{ app.modified_on|date:"Y年n月j日 H:i" }}</span> • 修改</div>
+      <h3><a href="{% url show_overtime app.id %}"><%= overtime.subject %></a></h3>
+      <%= overtime.state.name %>
+      <div class="foot">最后由 • <span class="field"><%= overtime.modified_by.chinese_name %></span> • 于 • <span class="field"><%= overtime.updated_at %></span> • 修改</div>
   </li>
-  {% endfor %}
-{% else %}
+  <% end %>
+<% else %>
   {% for flow in application_flows %}
 <div class="row">
   <div class="span12">
@@ -53,39 +53,4 @@
 </div>
 <hr>
   {% endfor %}
-{% endif %}
-
-
-<table>
-  <tr>
-    <th>Subject</th>
-    <th>Start time</th>
-    <th>End time</th>
-    <th>State</th>
-    <th>Applicant</th>
-    <th>Content</th>
-    <th>Modified by</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @overtimes.each do |overtime| %>
-  <tr>
-    <td><%= overtime.subject %></td>
-    <td><%= overtime.start_time %></td>
-    <td><%= overtime.end_time %></td>
-    <td><%= overtime.state_id %></td>
-    <td><%= overtime.applicant.email %></td>
-    <td><%= overtime.content %></td>
-    <td><%= overtime.modified_by %></td>
-    <td><%= link_to 'Show', overtime %></td>
-    <td><%= link_to 'Edit', edit_overtime_path(overtime) %></td>
-    <td><%= link_to 'Destroy', overtime, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
 <% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Overtime', new_overtime_path %>

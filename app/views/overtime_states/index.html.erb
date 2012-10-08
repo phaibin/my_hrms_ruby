@@ -1,0 +1,25 @@
+<h1>Listing overtime_states</h1>
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @overtime_states.each do |overtime_state| %>
+  <tr>
+    <td><%= overtime_state.code %></td>
+    <td><%= overtime_state.name %></td>
+    <td><%= link_to 'Show', overtime_state %></td>
+    <td><%= link_to 'Edit', edit_overtime_state_path(overtime_state) %></td>
+    <td><%= link_to 'Destroy', overtime_state, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Overtime state', new_overtime_state_path %>

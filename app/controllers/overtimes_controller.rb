@@ -8,9 +8,9 @@ class OvertimesController < ApplicationController
   # GET /overtimes
   # GET /overtimes.json
   def index
-    puts request
     @title = '加班'
     @overtimes = Overtime.all
+    @is_hr = true
 
     respond_to do |format|
       format.html # index.html.erb

@@ -33,7 +33,7 @@
           </ul>
           <% if user_signed_in? %>
           <p class="navbar-text pull-right">
-            欢迎：<%= current_user.chinese_name %> | <a href='{% url logout %}' class="navbar-link">退出</a>
+            欢迎：<%= current_user.chinese_name %> | <%= link_to '退出', :destroy_user_session, :method=>:delete, :class=>'navbar-link' %>
           </p>
           <% else %>
           <form method="post" class="navbar-form pull-right" action="{% url login %}">
@@ -218,7 +218,7 @@
     
   <footer class="footer">
     <div class="container">
-      <p>Copyright © 2012 JinJiang <a href="https://www.djangoproject.com" target="_blank"><img src="{{ STATIC_URL }}images/powered_by_django.gif"></img></a></p>
+      <p>Copyright © 2012 JinJiang <a href="https://www.djangoproject.com" target="_blank"><%= image_tag 'powered_by_django.gif' %></a></p>
     </dv>
   </footer>
 </body>

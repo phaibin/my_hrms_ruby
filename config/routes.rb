@@ -1,4 +1,6 @@
 MyHrmsRuby::Application.routes.draw do
+  resources :overtime_states
+
   resources :groups
 
   devise_for :users

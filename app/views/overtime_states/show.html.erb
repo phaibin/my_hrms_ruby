@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Code:</b>
+  <%= @overtime_state.code %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= @overtime_state.name %>
+</p>
+
+
+<%= link_to 'Edit', edit_overtime_state_path(@overtime_state) %> |
+<%= link_to 'Back', overtime_states_path %>
