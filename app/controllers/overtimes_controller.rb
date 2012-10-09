@@ -10,7 +10,6 @@ class OvertimesController < ApplicationController
   def index
     @title = '加班'
     @overtimes = Overtime.all
-    @is_hr = true
 
     respond_to do |format|
       format.html # index.html.erb

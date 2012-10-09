@@ -2,16 +2,10 @@
 
 one:
   id: 1
-  name: 员工
+  code: add_overtime
+  name: Can add overtime
 
 two:
   id: 2
-  name: 人事
-
-three:
-  id: 3
-  name: 项目经理
-  
-four:
-  id: 4
-  name: 部门主管
+  code: filter_overtime
+  name: Can filter overtimes

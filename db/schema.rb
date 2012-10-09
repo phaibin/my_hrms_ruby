@@ -11,13 +11,40 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121008230822) do
+ActiveRecord::Schema.define(:version => 20121009094415) do
+
+  create_table "group_permissions", :force => true do |t|
+    t.integer  "group_id"
+    t.integer  "permission_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "group_permissions", ["group_id"], :name => "index_group_permissions_on_group_id"
+  add_index "group_permissions", ["permission_id"], :name => "index_group_permissions_on_permission_id"
 
   create_table "groups", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "overtime_flows", :force => true do |t|
+    t.integer  "overtime_id"
+    t.integer  "applicant_id"
+    t.integer  "parent_id"
+    t.boolean  "can_read"
+    t.boolean  "can_update"
+    t.boolean  "can_delete"
+    t.boolean  "can_apply"
+    t.boolean  "can_revoke"
+    t.boolean  "can_reject"
+    t.boolean  "can_approve"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "overtime_flows", ["overtime_id"], :name => "index_overtime_flows_on_overtime_id"
 
   create_table "overtime_states", :force => true do |t|
     t.string   "code"
@@ -40,6 +67,13 @@ ActiveRecord::Schema.define(:version => 20121008230822) do
 
   add_index "overtimes", ["applicant_id"], :name => "index_overtimes_on_applicant_id"
   add_index "overtimes", ["modified_by"], :name => "index_overtimes_on_modified_by"
+
+  create_table "permissions", :force => true do |t|
+    t.string   "code"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "user_groups", :force => true do |t|
     t.integer  "user_id"

@@ -1,4 +1,6 @@
 MyHrmsRuby::Application.routes.draw do
+  resources :permissions
+
   resources :overtime_states
 
   resources :groups

@@ -6,11 +6,11 @@
 <div class="page-header"><h1>加班列表</h1></div>
   
 <p>
-  {% if "overtime.add_application" in request.user.get_group_permissions %}<%= link_to '新增加班申请', new_overtime_path, :class=>'btn' %>{% endif %}
+  <% if current_user.can_add_overtime? %><%= link_to '新增加班申请', new_overtime_path, :class=>'btn' %><% end %>
   <a class="btn" href="{% url overview_overtime %}">加班统计</a>
 </p>
       
-{% if "overtime.filter_application" in request.user.get_group_permissions %}
+<% if current_user.can_filter_overtime? %>
 <p>
   <span id="date-filter" class="pull-right" onclick="showDatePicker();">{{ date_filter }}</span>
   <ul class="nav nav-tabs">
@@ -20,11 +20,9 @@
     <li class="{% ifequal filter 'approved' %}active{% endifequal %}"><a href="{% url filter_approved_overtime %}">通过</a></li>
   </ul>
 </p>
-{% endif %}
-  
-  
+<% end %>
 
-<% if @is_hr %>
+<% if current_user.is_hr? %>
   <% @overtimes.each do |overtime| %>
   <li>
       <h3><a href="{% url show_overtime app.id %}"><%= overtime.subject %></a></h3>
