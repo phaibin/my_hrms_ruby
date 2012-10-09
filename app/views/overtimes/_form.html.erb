@@ -12,28 +12,24 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :subject %><br />
+    <%= f.label :subject, '标题' %>
     <%= f.text_field :subject %>
   </div>
   <div class="field">
-    <%= f.label :start_time %><br />
-    <%= f.date_select :start_time %>
+    <%= f.label :start_time, '开始时间' %>
+    <%= f.text_field :start_time %>
   </div>
   <div class="field">
-    <%= f.label :end_time %><br />
-    <%= f.date_select :end_time %>
+    <%= f.label :end_time, '结束时间' %>
+    <%= f.text_field :end_time %>
   </div>
   <div class="field">
-    <%= f.label :state_id %><br />
-    <%= f.number_field :state_id %>
-  </div>
-  <div class="field">
-    <%= f.label :applicant_id %><br />
+    <%= f.label :applicant_id, '参加人员' %>
     <%= f.select :applicant_id, options_from_collection_for_select(User.all, :id, :email) %>
   </div>
   <div class="field">
-    <%= f.label :content %><br />
-    <%= f.text_area :content %>
+    <%= f.label :content, '备注' %>
+    <%= f.text_area :content, :rows => 10 %>
   </div>
   <div class="actions">
     <%= f.submit %>

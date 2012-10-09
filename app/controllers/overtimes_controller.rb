@@ -31,6 +31,7 @@ class OvertimesController < ApplicationController
   # GET /overtimes/new
   # GET /overtimes/new.json
   def new
+    @title = '新增加班'
     @overtime = Overtime.new
 
     respond_to do |format|

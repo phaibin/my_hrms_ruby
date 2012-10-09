@@ -14,6 +14,9 @@ class User < ActiveRecord::Base
   has_many :overtimes, :foreign_key => 'applicant_id'  
   has_many :user_groups
   has_many :groups, :through => :user_groups
+  has_many :user_overtimes
+  has_many :overtimes, :through => :user_overtimes
+  belongs_to :superior, :class_name => 'User'
   belongs_to :superior, :class_name => 'User'
     
   def permissions

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121009094415) do
+ActiveRecord::Schema.define(:version => 20121009141218) do
 
   create_table "group_permissions", :force => true do |t|
     t.integer  "group_id"
@@ -81,6 +81,16 @@ ActiveRecord::Schema.define(:version => 20121009094415) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "user_overtimes", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "overtime_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "user_overtimes", ["overtime_id"], :name => "index_user_overtimes_on_overtime_id"
+  add_index "user_overtimes", ["user_id"], :name => "index_user_overtimes_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
