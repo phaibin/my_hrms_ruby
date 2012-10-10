@@ -17,7 +17,7 @@ class OvertimesController < ApplicationController
     # approved
     approved_state = OvertimeState.find_by_code('Approved')
     
-    start_time, end_time, date_filter = Time.now, Time.now+1.year, ''
+    start_time, end_time, date_filter = Time.now-1.year, Time.now+1.year, ''
     
     if current_user.is_hr?
       # applications = Application.objects.all()

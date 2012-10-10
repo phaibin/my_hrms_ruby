@@ -8,16 +8,17 @@ class Overtime < ActiveRecord::Base
   validates_presence_of :subject, :on => :create, :message => "can't be blank"
     
   def self.create_with_flow(user, new_overtime)
+    participants = []
+    for user_id in new_overtime['participants'].reject!(&:blank?)
+      user = User.find(user_id)
+      participants.push(user)
+    end
+    new_overtime['participants'] = participants
     overtime = Overtime.new(new_overtime)
     overtime.state = OvertimeState.find_by_code('ReadyForDirectorApprove')
     overtime.applicant = user
     overtime.modified_by = user
     overtime.save()
-    participants = []
-    for user in new_overtime['participants'].reject!(&:blank?)
-      participants.push(user)
-    end
-    self.participants = participants
       
     # application flow for current user
     current_flow = OvertimeFlow.new
@@ -29,7 +30,7 @@ class Overtime < ActiveRecord::Base
     # application flow for participants
     for participant in overtime.participants.all()
       if participant != overtime.applicant
-        app_flow = ApplicationFlow()
+        app_flow = OvertimeFlow.new
         app_flow.overtime = overtime
         app_flow.applicant = participant
         app_flow.set_viewer_state()
@@ -37,7 +38,7 @@ class Overtime < ActiveRecord::Base
       end
     end
     # application flow for superior
-    next_flow = ApplicationFlow()
+    next_flow = OvertimeFlow.new
     next_flow.overtime = overtime
     next_flow.applicant = user.superior
     next_flow.parent = current_flow

@@ -35,17 +35,17 @@
 <div class="row">
   <div class="span12">
     <h4>
-      <a href="{% url show_overtime flow.application.id %}">{{ flow.application.subject }}</a>
-      <span class="label label-{{ flow.application.state.code }}" id="app_state">{{ flow.application.state }}</span>
+      <a href="{% url show_overtime flow.application.id %}"><%= flow.overtime.subject %></a>
+      <span class="label label-{{ flow.application.state.code }}" id="app_state"><%= flow.overtime.state.name %></span>
     </h4>
-    <small>最后由 • <strong>{{ flow.application.modified_by.userprofile.chinese_name }}</strong> • 于 • <strong>{{ flow.application.modified_on|date:"Y年n月j日 H:i" }}</strong> • 修改</small>
+    <small>最后由 • <strong><%= flow.overtime.modified_by.chinese_name %></strong> • 于 • <strong><%= flow.updated_at %></strong> • 修改</small>
     <div class="pull-right">
-      {% if flow.can_update %}<a class="btn btn-small" href="{% url edit_overtime flow.application.id %}">修改</a>{% endif %}
-      {% if flow.can_approve %}<a class="btn btn-small" href="{% url approve_overtime flow.application.id %}">通过</a>{% endif %}
-      {% if flow.can_reject %}<a class="btn btn-small" href="{% url reject_overtime flow.application.id %}">拒绝</a>{% endif %}
-      {% if flow.can_apply %}<a class="btn btn-small" href="{% url apply_overtime flow.application.id %}">提交</a>{% endif %}
-      {% if flow.can_revoke %}<a class="btn btn-small" href="{% url revoke_overtime flow.application.id %}">撤销</a>{% endif %}
-      {% if flow.can_delete %}<a class="btn btn-small" href="{% url delete_overtime flow.application.id %}" onclick="return confirm('删除以后不能恢复的，确定？')">删除</a>{% endif %}
+      <% if flow.can_update %><%= link_to '修改', edit_overtime_path, :class => 'btn btn-small' %><% end %>
+      <% if flow.can_approve %><a class="btn btn-small" href="<% url approve_overtime flow.application.id %>">通过</a><% end %>
+      <% if flow.can_reject %><a class="btn btn-small" href="<% url reject_overtime flow.application.id %>">拒绝</a><% end %>
+      <% if flow.can_apply %><a class="btn btn-small" href="<% url apply_overtime flow.application.id %>">提交</a><% end %>
+      <% if flow.can_revoke %><a class="btn btn-small" href="<% url revoke_overtime flow.application.id %>">撤销</a><% end %>
+      <% if flow.can_delete %><a class="btn btn-small" href="<% url delete_overtime flow.application.id %>" onclick="return confirm('删除以后不能恢复的，确定？')">删除</a><% end %>
     </div>
   </div>
 </div>
