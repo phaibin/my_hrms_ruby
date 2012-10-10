@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121009141218) do
+ActiveRecord::Schema.define(:version => 20121010023551) do
 
   create_table "group_permissions", :force => true do |t|
     t.integer  "group_id"
@@ -45,6 +45,17 @@ ActiveRecord::Schema.define(:version => 20121009141218) do
   end
 
   add_index "overtime_flows", ["overtime_id"], :name => "index_overtime_flows_on_overtime_id"
+
+  create_table "overtime_histories", :force => true do |t|
+    t.integer  "overtime_id"
+    t.integer  "modified_by"
+    t.integer  "overtime_state_id"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  add_index "overtime_histories", ["overtime_id"], :name => "index_overtime_histories_on_overtime_id"
+  add_index "overtime_histories", ["overtime_state_id"], :name => "index_overtime_histories_on_overtime_state_id"
 
   create_table "overtime_states", :force => true do |t|
     t.string   "code"

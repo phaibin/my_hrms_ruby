@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  overtime: 
+  modified_by: 1
+  overtime_state: 
+
+two:
+  overtime: 
+  modified_by: 1
+  overtime_state: 

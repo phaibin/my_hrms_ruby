@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   has_many :overtimes, :through => :user_overtimes
   belongs_to :superior, :class_name => 'User'
   belongs_to :superior, :class_name => 'User'
+  has_many :overtime_flows, :foreign_key => 'applicant_id'  
     
   def permissions
     user_permissions = []

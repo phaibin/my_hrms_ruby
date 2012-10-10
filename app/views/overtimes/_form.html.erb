@@ -24,8 +24,8 @@
     <%= f.text_field :end_time %>
   </div>
   <div class="field">
-    <%= f.label :applicant_id, '参加人员' %>
-    <%= f.select :applicant_id, options_from_collection_for_select(User.all, :id, :email) %>
+    <%= f.label :participants, '参加人员' %>
+    <%= f.select :participants, options_from_collection_for_select(User.all, :id, :email), { :include_blank => false }, {:multiple => true} %>
   </div>
   <div class="field">
     <%= f.label :content, '备注' %>

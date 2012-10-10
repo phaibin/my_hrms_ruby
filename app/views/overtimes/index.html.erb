@@ -31,7 +31,7 @@
   </li>
   <% end %>
 <% else %>
-  {% for flow in application_flows %}
+  <% for flow in @overtime_flows %>
 <div class="row">
   <div class="span12">
     <h4>
@@ -50,5 +50,5 @@
   </div>
 </div>
 <hr>
-  {% endfor %}
+  <% end %>
 <% end %>

@@ -9,7 +9,34 @@ class OvertimesController < ApplicationController
   # GET /overtimes.json
   def index
     @title = '加班'
-    @overtimes = Overtime.all
+    filter = 'all'
+    
+    # not applyed
+    revoke_state = OvertimeState.find_by_code('Revoke')
+    reject_state = OvertimeState.find_by_code('Reject')
+    # approved
+    approved_state = OvertimeState.find_by_code('Approved')
+    
+    start_time, end_time, date_filter = Time.now, Time.now+1.year, ''
+    
+    if current_user.is_hr?
+      # applications = Application.objects.all()
+      @overtimes = {
+        'all' => Overtime.scoped,
+        'new' => Overtime.where(:state => [revoke_state, reject_state]),
+        'applying' => Overtime.where(:state => [revoke_state, reject_state, approved_state]),
+        'approved' => Overtime.where(:state => approved_state),
+        }[filter]
+      @overtimes = @overtimes.where(:created_at => start_time..end_time).order('updated_at DESC')
+    else
+      @overtime_flows = {
+        'all' => current_user.overtime_flows.scoped,
+        'new' => current_user.overtime_flows.joins(:overtime).where('overtimes.state_id' => [revoke_state, reject_state]),
+        'applying' => current_user.overtime_flows.joins(:overtime).where('overtimes.state_id' => [revoke_state, reject_state, approved_state]),
+        'approved' => current_user.overtime_flows.joins(:overtime).where('overtimes.state_id' => approved_state),
+        }[filter]
+      @overtime_flows = @overtime_flows.joins(:overtime).where('overtimes.created_at' => start_time..end_time).order('updated_at DESC')
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -48,7 +75,7 @@ class OvertimesController < ApplicationController
   # POST /overtimes
   # POST /overtimes.json
   def create
-    @overtime = Overtime.new(params[:overtime])
+    next_user = Overtime.create_with_flow(current_user, params[:overtime])
 
     respond_to do |format|
       if @overtime.save
