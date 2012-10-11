@@ -10,8 +10,8 @@ class Overtime < ActiveRecord::Base
   def self.create_with_flow(user, new_overtime)
     participants = []
     for user_id in new_overtime['participants'].reject!(&:blank?)
-      user = User.find(user_id)
-      participants.push(user)
+      temp_user = User.find(user_id)
+      participants.push(temp_user)
     end
     new_overtime['participants'] = participants
     overtime = Overtime.new(new_overtime)
@@ -48,14 +48,14 @@ class Overtime < ActiveRecord::Base
     # application history
     overtime.write_history(user)
         
-    return user.superior
+    return overtime
   end
     
   def write_history(user)
     history = OvertimeHistory.new
     history.overtime = self
     history.modified_by = user
-    history.state = self.state
+    history.overtime_state = self.state
     history.save()
     self.modified_by = user
     self.save()

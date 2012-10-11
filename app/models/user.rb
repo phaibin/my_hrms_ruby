@@ -42,4 +42,8 @@ class User < ActiveRecord::Base
     hr_group = Group.find_by_name('人事')
     self.groups.include?hr_group
   end
+  
+  def ==(another_user)
+    self.id == another_user.id
+  end
 end

@@ -10,7 +10,7 @@ one:
   encrypted_password: $2a$10$OCRadW7poBFgZlZ7AkDdS.b0PFZyIWO0YXwY16.JpEcHmr8fG755a
   chinese_name: PM
   english_name: PM
-  superior_id: null
+  superior_id: 3
 
 two:
   id: 2
@@ -19,3 +19,19 @@ two:
   chinese_name: employee1
   english_name: employee1
   superior_id: 1
+  
+three:
+  id: 3
+  email: peng_haibin@vanceinfo.com
+  encrypted_password: $2a$10$OCRadW7poBFgZlZ7AkDdS.b0PFZyIWO0YXwY16.JpEcHmr8fG755a
+  chinese_name: DM
+  english_name: DM
+  superior_id: null
+  
+four:
+  id: 4
+  email: hr@jinjiang.com
+  encrypted_password: $2a$10$OCRadW7poBFgZlZ7AkDdS.b0PFZyIWO0YXwY16.JpEcHmr8fG755a
+  chinese_name: HR
+  english_name: HR
+  superior_id: null

@@ -38,6 +38,8 @@ class OvertimeFlow < ActiveRecord::Base
   end
     
   def reset_state
+    puts '*' * 10
+    puts 'reset_state'
     self.can_read = false
     self.can_update = false
     self.can_delete = false

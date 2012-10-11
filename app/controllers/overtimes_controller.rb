@@ -75,15 +75,15 @@ class OvertimesController < ApplicationController
   # POST /overtimes
   # POST /overtimes.json
   def create
-    next_user = Overtime.create_with_flow(current_user, params[:overtime])
+    @overtime = Overtime.create_with_flow(current_user, params[:overtime])
 
     respond_to do |format|
-      if @overtime.save
-        format.html { redirect_to @overtime, notice: 'Overtime was successfully created.' }
-        format.json { render json: @overtime, status: :created, location: @overtime }
-      else
+      if @overtime.errors
         format.html { render action: "new" }
         format.json { render json: @overtime.errors, status: :unprocessable_entity }
+      else
+        format.html { redirect_to @overtime, notice: 'Overtime was successfully created.' }
+        format.json { render json: @overtime, status: :created, location: @overtime }
       end
     end
   end
