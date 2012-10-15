@@ -60,4 +60,8 @@ class Overtime < ActiveRecord::Base
     self.modified_by = user
     self.save()
   end
+  
+  def participants_string
+      return self.participants.collect{|x| x.chinese_name}.compact.join(', ')
+  end
 end
