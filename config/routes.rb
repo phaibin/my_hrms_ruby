@@ -66,8 +66,8 @@ MyHrmsRuby::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
   
-  match 'overtimes/:id/approve' => 'overtime#approve', :as => :approve_overtime
-  match 'overtimes/:id/reject' => 'overtime#reject', :as => :reject_overtime
-  match 'overtimes/:id/apply' => 'overtime#apply', :as => :apply_overtime
-  match 'overtimes/:id/revoke' => 'overtime#revoke', :as => :revoke_overtime
+  match 'overtimes/:id/approve' => 'overtimes#approve', :as => :approve_overtime
+  match 'overtimes/:id/reject' => 'overtimes#reject', :as => :reject_overtime
+  match 'overtimes/:id/apply' => 'overtimes#apply', :as => :apply_overtime
+  match 'overtimes/:id/revoke' => 'overtimes#revoke', :as => :revoke_overtime
 end

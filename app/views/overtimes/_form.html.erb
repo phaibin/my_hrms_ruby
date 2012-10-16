@@ -11,27 +11,39 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :subject, '标题' %>
-    <%= f.text_field :subject %>
+  <div class="control-group">
+    <%= f.label :subject, '标题', :class=>'control-label' %>
+    <div class="controls">
+      <%= f.text_field :subject %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :start_time, '开始时间' %>
-    <%= f.text_field :start_time %>
+  <div class="control-group">
+    <%= f.label :start_time, '开始时间', :class=>'control-label' %>
+    <div class="controls">
+      <%= f.text_field :start_time %>
+    </div>
+  </div>  
+  <div class="control-group">
+    <%= f.label :end_time, '结束时间', :class=>'control-label' %>
+    <div class="controls">
+      <%= f.text_field :end_time %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :end_time, '结束时间' %>
-    <%= f.text_field :end_time %>
+  <div class="control-group">
+  <%= f.label :participants, '参加人员', :class=>'control-label' %>
+    <div class="controls">
+      <%= f.select :participants, options_from_collection_for_select(User.all, :id, :chinese_name), {}, {:multiple => true} %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :participants, '参加人员' %>
-    <%= f.select :participants, options_from_collection_for_select(User.all, :id, :chinese_name), {}, {:multiple => true} %>
+  <div class="control-group">
+    <%= f.label :content, '备注', :class=>'control-label' %>
+    <div class="controls">
+      <%= f.text_area :content, :rows => 10 %>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :content, '备注' %>
-    <%= f.text_area :content, :rows => 10 %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="control-group">
+    <div class="controls">
+      <%= f.submit '提交', :class=>'btn' %>
+    </div>
   </div>
 <% end %>

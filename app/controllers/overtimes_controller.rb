@@ -9,7 +9,7 @@ class OvertimesController < ApplicationController
   # GET /overtimes.json
   def index
     @title = '加班'
-    filter = 'all'
+    @filter = 'all'
     
     # not applyed
     revoke_state = OvertimeState.find_by_code('Revoke')
@@ -26,7 +26,7 @@ class OvertimesController < ApplicationController
         'new' => Overtime.where(:state => [revoke_state, reject_state]),
         'applying' => Overtime.where(:state => [revoke_state, reject_state, approved_state]),
         'approved' => Overtime.where(:state => approved_state),
-        }[filter]
+        }[@filter]
       @overtimes = @overtimes.where(:created_at => start_time..end_time).order('updated_at DESC')
     else
       @overtime_flows = {
@@ -34,7 +34,7 @@ class OvertimesController < ApplicationController
         'new' => current_user.overtime_flows.joins(:overtime).where('overtimes.state_id' => [revoke_state, reject_state]),
         'applying' => current_user.overtime_flows.joins(:overtime).where('overtimes.state_id' => [revoke_state, reject_state, approved_state]),
         'approved' => current_user.overtime_flows.joins(:overtime).where('overtimes.state_id' => approved_state),
-        }[filter]
+        }[@filter]
       @overtime_flows = @overtime_flows.joins(:overtime).where('overtimes.created_at' => start_time..end_time).order('updated_at DESC')
     end
 
@@ -78,12 +78,12 @@ class OvertimesController < ApplicationController
     @overtime = Overtime.create_with_flow(current_user, params[:overtime])
 
     respond_to do |format|
-      if @overtime.errors
+      if @overtime
+        format.html { redirect_to overtimes_path, notice: 'Overtime was successfully created.' }
+        format.json { render json: @overtime, status: :created, location: @overtime }
+      else
         format.html { render action: "new" }
         format.json { render json: @overtime.errors, status: :unprocessable_entity }
-      else
-        format.html { redirect_to @overtime, notice: 'Overtime was successfully created.' }
-        format.json { render json: @overtime, status: :created, location: @overtime }
       end
     end
   end
@@ -94,7 +94,7 @@ class OvertimesController < ApplicationController
     @overtime = Overtime.find(params[:id])
 
     respond_to do |format|
-      if @overtime.update_attributes(params[:overtime])
+      if @overtime.update_with_flow(current_user, params[:overtime])
         format.html { redirect_to @overtime, notice: 'Overtime was successfully updated.' }
         format.json { head :no_content }
       else
@@ -114,5 +114,17 @@ class OvertimesController < ApplicationController
       format.html { redirect_to overtimes_url }
       format.json { head :no_content }
     end
+  end
+  
+  def revoke
+    @overtime = Overtime.find(params[:id])
+    @overtime.revoke(current_user)
+    redirect_to overtimes_path
+  end
+  
+  def apply
+    @overtime = Overtime.find(params[:id])
+    @overtime.apply(current_user)
+    redirect_to overtimes_path
   end
 end

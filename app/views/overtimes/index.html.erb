@@ -14,10 +14,10 @@
 <p>
   <span id="date-filter" class="pull-right" onclick="showDatePicker();">{{ date_filter }}</span>
   <ul class="nav nav-tabs">
-    <li class="{% ifequal filter 'all' %}active{% endifequal %}"><a href="{% url filter_all_overtime %}">全部</a></li>
-    <li class="{% ifequal filter 'new' %}active{% endifequal %}"><a href="{% url filter_new_overtime %}">未提交</a></li>
-    <li class="{% ifequal filter 'applying' %}active{% endifequal %}"><a href="{% url filter_applying_overtime %}">申请中</a></li>
-    <li class="{% ifequal filter 'approved' %}active{% endifequal %}"><a href="{% url filter_approved_overtime %}">通过</a></li>
+    <li class="<% if @filter == 'all' %>active<% end %>"><a href="{% url filter_all_overtime %>">全部</a></li>
+    <li class="<% if @filter == 'new' %>active<% end %>"><a href="{% url filter_new_overtime %>">未提交</a></li>
+    <li class="<% if @filter == 'applying' %>active<% end %>"><a href="{% url filter_applying_overtime %>">申请中</a></li>
+    <li class="<% if @filter == 'approved' %>active<% end %>"><a href="{% url filter_approved_overtime %>">通过</a></li>
   </ul>
 </p>
 <% end %>
@@ -36,7 +36,7 @@
   <div class="span12">
     <h4>
       <%= link_to flow.overtime.subject, overtime_path(flow.overtime) %>
-      <span class="label label-{{ flow.application.state.code }}" id="app_state"><%= flow.overtime.state.name %></span>
+      <span class="label label-<%= flow.overtime.state.code %>" id="app_state"><%= flow.overtime.state.name %></span>
     </h4>
     <small>最后由 • <strong><%= flow.overtime.modified_by.chinese_name %></strong> • 于 • <strong><%= flow.updated_at %></strong> • 修改</small>
     <div class="pull-right">

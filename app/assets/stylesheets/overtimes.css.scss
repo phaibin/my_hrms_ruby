@@ -1,3 +1,23 @@
 // Place all the styles related to the overtimes controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+html, body { height: 100%; }
+
+.container { min-height: 100%; height: auto !important; height: 100%; }
+        
+#push-top { padding-top: 60px; }
+#push-bottom { padding-bottom: 81px; }
+        
+.footer { position: relative; margin-top: -81px;/*等于footer的高度*/ height: 20px; clear:both; }
+                
+body { font-size: 13px; }
+
+#dialog-date-filter { display:none; }
+#date-filter { font-weight:bold; cursor:pointer; padding-right:20px; background:url(/static/images/calendar.png) no-repeat right; }
+
+.label-Approved { background-color: #468847; }
+.label-Reject { background-color: #b94a48; }
+.label-Approved { background-color: #468847; }
+.label-ReadyForDirectorApprove { background-color: #f89406; }
