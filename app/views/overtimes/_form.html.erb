@@ -1,4 +1,4 @@
-<%= form_for(@overtime) do |f| %>
+<%= form_for(@overtime, :html => { :class => 'form-horizontal' }) do |f| %>
   <% if @overtime.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@overtime.errors.count, "error") %> prohibited this overtime from being saved:</h2>
@@ -46,4 +46,17 @@
       <%= f.submit '提交', :class=>'btn' %>
     </div>
   </div>
+<% end %>
+
+<p>
+  <%= link_to '返回', overtimes_path, :class=>'btn' %>
+</p>
+
+<% content_for :js do %>
+
+<script type="text/javascript" charset="utf-8">
+  $('#overtime_start_time').datetimepicker({dateFormat: "yy-mm-dd"});
+  $('#overtime_end_time').datetimepicker({dateFormat: "yy-mm-dd"});
+</script>
+
 <% end %>

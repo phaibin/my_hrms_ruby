@@ -12,12 +12,12 @@
       
 <% if current_user.can_filter_overtime? %>
 <p>
-  <span id="date-filter" class="pull-right" onclick="showDatePicker();">{{ date_filter }}</span>
+  <span id="date-filter" class="pull-right" onclick="showDatePicker();"><%= date_filter %></span>
   <ul class="nav nav-tabs">
-    <li class="<% if @filter == 'all' %>active<% end %>"><a href="{% url filter_all_overtime %>">全部</a></li>
-    <li class="<% if @filter == 'new' %>active<% end %>"><a href="{% url filter_new_overtime %>">未提交</a></li>
-    <li class="<% if @filter == 'applying' %>active<% end %>"><a href="{% url filter_applying_overtime %>">申请中</a></li>
-    <li class="<% if @filter == 'approved' %>active<% end %>"><a href="{% url filter_approved_overtime %>">通过</a></li>
+    <li class="<% if @filter == 'all' %>active<% end %>"><%= link_to '全部', overtimes_path(:filter => 'all') %></a></li>
+    <li class="<% if @filter == 'new' %>active<% end %>"><%= link_to '未提交', overtimes_path(:filter => 'new') %></li>
+    <li class="<% if @filter == 'applying' %>active<% end %>"><%= link_to '申请中', overtimes_path(:filter => 'applying') %></li>
+    <li class="<% if @filter == 'approved' %>active<% end %>"><%= link_to '通过', overtimes_path(:filter => 'approved') %></li>
   </ul>
 </p>
 <% end %>

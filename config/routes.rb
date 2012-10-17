@@ -1,4 +1,4 @@
-MyHrmsRuby::Application.routes.draw do
+MyHrmsRuby::Application.routes.draw do  
   resources :permissions
 
   resources :overtime_states
@@ -70,4 +70,5 @@ MyHrmsRuby::Application.routes.draw do
   match 'overtimes/:id/reject' => 'overtimes#reject', :as => :reject_overtime
   match 'overtimes/:id/apply' => 'overtimes#apply', :as => :apply_overtime
   match 'overtimes/:id/revoke' => 'overtimes#revoke', :as => :revoke_overtime
+
 end
