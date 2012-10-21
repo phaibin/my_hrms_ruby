@@ -7,8 +7,6 @@
   <meta name="author" content="">
   <title><%= @title %></title>
   <%= stylesheet_link_tag "application", :media => "all" %>
-  <%= stylesheet_link_tag "overtimes", :media => "all" %>
-  <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -56,9 +54,10 @@
     <%= yield %>
         
     <div id="dialog-date-filter" title="选择时间范围">
-      <form id="date-filter-form" class="form-horizontal" action="{% url filter_date_overtime %}">
-        <select id="quickDateRanges" name="quickDateRanges" class="span2" onchange="changeDate();"> 							
-          <option disabled="disabled" value="0">选择预设</option> 							
+      <form id="date-filter-form" class="form-horizontal" action="<%= overtimes_path %>">
+        <input type="hidden" name="state" value="<%= @state_filter %>" id="state">
+        <select id="quickDateRanges" name="quickDateRanges" class="span2" onchange="changeDate();">
+          <option value="0">时间范围</option> 							
           <optgroup class="quick" label="预置日期"> 							
             <option value="1">今天</option>
             <option value="2">昨天</option>
@@ -84,19 +83,9 @@
         </div>
       </form>
     </div>  
-        
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-  	<script src="{{ STATIC_URL }}js/jquery-1.7.2.min.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap.js"></script>
-        
-  	<script src="{{ STATIC_URL }}js/date.js"></script>
-  	<script src="{{ STATIC_URL }}js/jquery-ui-1.8.22.custom.min.js"></script>
-  	<script src="{{ STATIC_URL }}js/jquery-ui-timepicker-addon.js"></script>
-  	<script src="{{ STATIC_URL }}js/jquery.validate.min.js"></script>
-  	<script src="{{ STATIC_URL }}js/messages_cn.js"></script>
-        
+    
+    <%= javascript_include_tag "application" %>
+    
     <script>
     $(document).ready(function(){
       $("#date-filter-form").validate({
@@ -122,6 +111,7 @@
         	numberOfMonths: 3,
         	dateFormat: "yy-mm-dd",
         	onSelect: function( selectedDate ) {
+            $('#quickDateRanges').val(0);
         		$( "#date_from" ).datepicker( "option", "maxDate", selectedDate );
         	}
         });
@@ -198,6 +188,12 @@
       			},
             open: function(event, ui) {
               $("#quickDateRanges").val(0);
+              var dialog = $(event.target).parents(".ui-dialog.ui-widget");
+              var buttons = dialog.find(".ui-dialog-buttonpane").find("button");
+              var okButton = buttons[0]; 
+              var cancelButton = buttons[1];
+              $(okButton).addClass("btn"); 
+              $(cancelButton).addClass("btn"); 
             },
         	});
       	}
@@ -218,7 +214,7 @@
     
   <footer class="footer">
     <div class="container">
-      <p>Copyright © 2012 JinJiang <a href="https://www.djangoproject.com" target="_blank"><%= image_tag 'powered_by_django.gif' %></a></p>
+      <p>Copyright © 2012 JinJiang <a href="http://rubyonrails.org" target="_blank"><%= image_tag 'rails.png' %></a></p>
     </dv>
   </footer>
 </body>

@@ -9,16 +9,18 @@ class OvertimesController < ApplicationController
   # GET /overtimes.json
   def index
     @title = '加班'
-    @filter = params['filter'] || 'all'
     
     # not applyed
     revoke_state = OvertimeState.find_by_code('Revoke')
     reject_state = OvertimeState.find_by_code('Reject')
     # approved
     approved_state = OvertimeState.find_by_code('Approved')
-    
-    # start_time, end_time, date_filter = Time.now-1.year, Time.now+1.year, ''
-    start_time, end_time, @date_filter = self.get_filter(request)
+
+    @state_filter = params['state'] || 'all'
+    @quick_date_ranges = params['quickDateRanges'] || '7'
+    @date_from = params['date_from']
+    @date_to = params['date_to']
+    @start_time, @end_time, @date_filter = self.get_date_filter(@quick_date_ranges)
     
     if current_user.is_hr?
       # applications = Application.objects.all()
@@ -27,16 +29,16 @@ class OvertimesController < ApplicationController
         'new' => Overtime.where(:state => [revoke_state, reject_state]),
         'applying' => Overtime.where(["state_id not in (?)", [revoke_state, reject_state, approved_state]]),
         'approved' => Overtime.where(:state => approved_state),
-        }[@filter]
-      @overtimes = @overtimes.where(:created_at => start_time..end_time).order('updated_at DESC')
+        }[@state_filter]
+      @overtimes = @overtimes.where(:created_at => @start_time..@end_time).order('updated_at DESC')
     else
       @overtime_flows = {
         'all' => current_user.overtime_flows.scoped,
         'new' => current_user.overtime_flows.joins(:overtime).where('overtimes.state_id' => [revoke_state, reject_state]),
         'applying' => current_user.overtime_flows.joins(:overtime).where(["state_id not in (?)", [revoke_state, reject_state, approved_state]]),
         'approved' => current_user.overtime_flows.joins(:overtime).where('overtimes.state_id' => approved_state),
-        }[@filter]
-      @overtime_flows = @overtime_flows.joins(:overtime).where('overtimes.created_at' => start_time..end_time).order('updated_at DESC')
+        }[@state_filter]
+      @overtime_flows = @overtime_flows.joins(:overtime).where('overtimes.created_at' => @start_time..@end_time).order('updated_at DESC')
     end
 
     respond_to do |format|
@@ -129,42 +131,42 @@ class OvertimesController < ApplicationController
     redirect_to overtimes_path
   end
   
-  def get_filter(request)
+  def get_date_filter(quick_date_ranges)
       start_time = ''
       end_time = ''
-      date_filter = request.session['date_filter'] || '7'
+      date_filter = ''
       # date_filter = '1'
-      case date_filter        
+      case quick_date_ranges        
       when '0'  # custom
-        start_time = datetime.datetime.strptime(request.session.get('date_from', ''), '%Y-%m-%d')
-        end_time = datetime.datetime.strptime(request.session.get('date_to', ''), '%Y-%m-%d')
+        start_time = DateTime.strptime(params['date_from'], '%Y-%m-%d')
+        end_time = DateTime.strptime(params['date_to'], '%Y-%m-%d')
         end_time = Time.new(end_time.year, end_time.month, end_time.day, 23, 59, 59)
-        date_filter = u'时间范围：' + request.session.get('date_from', '') + ' - ' + request.session.get('date_to', '')
+        date_filter = '时间范围：' + params['date_from'] + ' - ' + params['date_to']
       when '1'  # today
         now = Time.now
         start_time = Time.new(now.year, now.month, now.day, 0, 0, 0)
         end_time = Time.new(now.year, now.month, now.day, 23, 59, 59)
-        date_filter = u'时间范围：' + datetime.datetime.strftime(now, '%Y-%m-%d')
+        date_filter = '时间范围：' + now.strftime('%Y-%m-%d')
       when '2'  # yestoday
         now = Time.now
-        yestoday = now - datetime.timedelta(days=1)
+        yestoday = now - 1.day
         start_time = Time.new(yestoday.year, yestoday.month, yestoday.day, 0, 0, 0)
         end_time = Time.new(yestoday.year, yestoday.month, yestoday.day, 23, 59, 59)
-        date_filter = u'时间范围：' + datetime.datetime.strftime(yestoday, '%Y-%m-%d')
+        date_filter = '时间范围：' + yestoday.strftime('%Y-%m-%d')
       when '3' # this week
         now = Time.now
-        monday = now - datetime.timedelta(days=now.isoweekday()-1)
-        sunday = monday + datetime.timedelta(days=6)
+        monday = now - (now.wday-1).day
+        sunday = monday + 6.day
         start_time = Time.new(monday.year, monday.month, monday.day, 0, 0, 0)
         end_time = Time.new(sunday.year, sunday.month, sunday.day, 23, 59, 59)
-        date_filter = u'时间范围：' + datetime.datetime.strftime(start_time, '%Y-%m-%d') + ' - ' + datetime.datetime.strftime(end_time, '%Y-%m-%d')
+        date_filter = '时间范围：' + start_time.strftime('%Y-%m-%d') + ' - ' + end_time.strftime('%Y-%m-%d')
       when '4'  # last week
         now = Time.now
-        last_monday = now - datetime.timedelta(days=now.isoweekday()-1+7)
-        last_sunday = last_monday + datetime.timedelta(days=6)
+        last_monday = now - (now.wday-1+7).day
+        last_sunday = last_monday + 6.day
         start_time = Time.new(last_monday.year, last_monday.month, last_monday.day, 0, 0, 0)
         end_time = Time.new(last_sunday.year, last_sunday.month, last_sunday.day, 23, 59, 59)
-        date_filter = u'时间范围：' + datetime.datetime.strftime(start_time, '%Y-%m-%d') + ' - ' + datetime.datetime.strftime(end_time, '%Y-%m-%d')
+        date_filter = '时间范围：' + start_time.strftime('%Y-%m-%d') + ' - ' + end_time.strftime('%Y-%m-%d')
       when '5'  # this month
         now = Time.now
         first_day_of_month = Time.new(now.year, now.month, 1, 0, 0, 0)
@@ -189,7 +191,7 @@ class OvertimesController < ApplicationController
         now = Time.now
         start_time = Time.new(now.year-1, 1, 1, 0, 0, 0)
         end_time = Time.new(now.year-1, 12, 31, 23, 59, 59)
-        date_filter = u'时间范围：%d年' % (now.year-1)
+        date_filter = '时间范围：%d年' % (now.year-1)
       end
         
       return [start_time, end_time, date_filter]

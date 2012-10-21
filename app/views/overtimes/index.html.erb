@@ -12,12 +12,12 @@
       
 <% if current_user.can_filter_overtime? %>
 <p>
-  <span id="date-filter" class="pull-right" onclick="showDatePicker();"><%= date_filter %></span>
+  <span id="date-filter" class="pull-right" onclick="showDatePicker();"><%= @date_filter %></span>
   <ul class="nav nav-tabs">
-    <li class="<% if @filter == 'all' %>active<% end %>"><%= link_to '全部', overtimes_path(:filter => 'all') %></a></li>
-    <li class="<% if @filter == 'new' %>active<% end %>"><%= link_to '未提交', overtimes_path(:filter => 'new') %></li>
-    <li class="<% if @filter == 'applying' %>active<% end %>"><%= link_to '申请中', overtimes_path(:filter => 'applying') %></li>
-    <li class="<% if @filter == 'approved' %>active<% end %>"><%= link_to '通过', overtimes_path(:filter => 'approved') %></li>
+    <li class="<% if @state_filter == 'all' %>active<% end %>"><%= link_to '全部', overtimes_path(:state => 'all', :quickDateRanges => @quick_date_ranges, :date_from => @date_from, :date_to => @date_to) %></a></li>
+    <li class="<% if @state_filter == 'new' %>active<% end %>"><%= link_to '未提交', overtimes_path(:state => 'new', :quickDateRanges => @quick_date_ranges, :date_from => @date_from, :date_to => @date_to) %></li>
+    <li class="<% if @state_filter == 'applying' %>active<% end %>"><%= link_to '申请中', overtimes_path(:state => 'applying', :quickDateRanges => @quick_date_ranges, :date_from => @date_from, :date_to => @date_to) %></li>
+    <li class="<% if @state_filter == 'approved' %>active<% end %>"><%= link_to '通过', overtimes_path(:state => 'approved', :quickDateRanges => @quick_date_ranges, :date_from => @date_from, :date_to => @date_to) %></li>
   </ul>
 </p>
 <% end %>
