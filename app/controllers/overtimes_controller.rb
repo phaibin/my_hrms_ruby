@@ -84,6 +84,8 @@ class OvertimesController < ApplicationController
 
     respond_to do |format|
       if @overtime
+        subject = '[my_hrms] 新加班申请'
+        FlowMailer.flow_notify_email(@overtime, current_user.superior, subject).deliver
         format.html { redirect_to overtimes_path, notice: 'Overtime was successfully created.' }
         format.json { render json: @overtime, status: :created, location: @overtime }
       else
@@ -124,12 +126,16 @@ class OvertimesController < ApplicationController
   def revoke
     @overtime = Overtime.find(params[:id])
     @overtime.revoke(current_user)
+    subject = '[my_hrms] 加班撤销'
+    FlowMailer.flow_notify_email(@overtime, current_user.superior, subject).deliver
     redirect_to overtimes_path
   end
   
   def apply
     @overtime = Overtime.find(params[:id])
     @overtime.apply(current_user)
+    subject = '[my_hrms] 新加班申请'
+    FlowMailer.flow_notify_email(@overtime, current_user.superior, subject).deliver
     redirect_to overtimes_path
   end
   

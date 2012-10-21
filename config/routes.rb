@@ -1,4 +1,8 @@
 MyHrmsRuby::Application.routes.draw do  
+
+  get "/index" => "home#index"
+  get "/about" => "home#about"
+
   match 'overtimes/overview' => 'overtimes#overview', :as => :overview_overtimes
   match 'overtimes/export' => 'overtimes#export', :as => :export_overtimes
   
@@ -61,7 +65,7 @@ MyHrmsRuby::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'overtimes#index'
+  root :to => 'home#index'
 
   # See how all your routes lay out with "rake routes"
 
