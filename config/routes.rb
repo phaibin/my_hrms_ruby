@@ -1,4 +1,7 @@
 MyHrmsRuby::Application.routes.draw do  
+  match 'overtimes/overview' => 'overtimes#overview', :as => :overview_overtimes
+  match 'overtimes/export' => 'overtimes#export', :as => :export_overtimes
+  
   resources :permissions
 
   resources :overtime_states

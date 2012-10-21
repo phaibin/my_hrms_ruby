@@ -40,3 +40,5 @@ gem 'jquery-rails'
 gem 'devise'
 
 gem 'thin'
+
+# gem 'fastercsv'

@@ -54,7 +54,7 @@
     <%= yield %>
         
     <div id="dialog-date-filter" title="选择时间范围">
-      <form id="date-filter-form" class="form-horizontal" action="<%= overtimes_path %>">
+      <form id="date-filter-form" class="form-horizontal">
         <input type="hidden" name="state" value="<%= @state_filter %>" id="state">
         <select id="quickDateRanges" name="quickDateRanges" class="span2" onchange="changeDate();">
           <option value="0">时间范围</option> 							

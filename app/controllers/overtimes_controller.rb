@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 # -*- coding:utf-8 -*-
 
+require 'csv'
+
 class OvertimesController < ApplicationController
   
   before_filter :authenticate_user!
@@ -129,6 +131,57 @@ class OvertimesController < ApplicationController
     @overtime = Overtime.find(params[:id])
     @overtime.apply(current_user)
     redirect_to overtimes_path
+  end
+  
+  def overview
+    @title = '加班统计'
+    
+    @quick_date_ranges = params['quickDateRanges'] || '7'
+    @date_from = params['date_from']
+    @date_to = params['date_to']
+    @start_time, @end_time, @date_filter = self.get_date_filter(@quick_date_ranges)
+    
+    approved_state = OvertimeState.find_by_code('Approved')
+    @overtime_flows = current_user.overtime_flows.joins(:overtime).where('overtimes.state_id' => approved_state)
+    @overtime_flows = @overtime_flows.joins(:overtime).where('overtimes.created_at' => @start_time..@end_time).order('updated_at DESC')
+  end
+  
+  def export
+    @quick_date_ranges = params['quickDateRanges'] || '7'
+    @date_from = params['date_from']
+    @date_to = params['date_to']
+    @start_time, @end_time, @date_filter = self.get_date_filter(@quick_date_ranges)
+    
+    approved_state = OvertimeState.find_by_code('Approved')
+    @overtime_flows = current_user.overtime_flows.joins(:overtime).where('overtimes.state_id' => approved_state)
+    @overtime_flows = @overtime_flows.joins(:overtime).where('overtimes.created_at' => @start_time..@end_time).order('updated_at DESC')
+    
+    respond_to do |format|
+      format.csv {
+        send_data(csv_content_for(@overtime_flows),  
+        :type => "text/csv;charset=utf-8; header=present",  
+        :filename => "Report_Overtimes_#{Time.now.strftime("%Y%m%d")}.csv") 
+      }
+    end
+  end
+  
+  def csv_content_for(overtime_flows)
+    csv_string = CSV.generate do |csv|
+      csv << ["基本信息"]
+      csv << ["姓名", current_user.chinese_name]
+      csv << ["部门"]
+      csv << ["入职日期"]
+      csv << ["已休年假天数"]
+      csv << ["年假剩余天数"]
+      csv << ['']
+      csv << ["加班信息"]
+      csv << ['', "标题", "开始时间", "结束时间", "加班时间(小时)"]
+      
+      overtime_flows.each_with_index do |flow, index|
+        csv << [index+1, flow.overtime.subject, flow.overtime.start_time, flow.overtime.end_time, flow.overtime.total_time]
+      end
+    end
+    return csv_string
   end
   
   def get_date_filter(quick_date_ranges)

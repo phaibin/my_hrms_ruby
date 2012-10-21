@@ -2,8 +2,8 @@ class CreateOvertimes < ActiveRecord::Migration
   def change
     create_table :overtimes do |t|
       t.string :subject
-      t.date :start_time
-      t.date :end_time
+      t.datetime :start_time
+      t.datetime :end_time
       t.integer :state_id
       t.integer :applicant_id
       t.text :content

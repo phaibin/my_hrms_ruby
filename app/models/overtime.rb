@@ -13,6 +13,18 @@ class Overtime < ActiveRecord::Base
       return self.participants.collect{|x| x.chinese_name}.compact.join(', ')
   end
   
+  def total_time
+      begin_time = self.start_time
+      if self.start_time.hour < 19
+          begin_time = Time.new(self.start_time.year, self.start_time.month, self.start_time.day, 19, 0, 0)
+      end
+      total = ((self.end_time-begin_time)/3600).to_i
+      if total < 0
+          total = 0
+      end
+      return total
+  end
+  
   def self.create_with_flow(user, new_overtime)
     participants = []
     for user_id in new_overtime['participants'].reject!(&:blank?)
